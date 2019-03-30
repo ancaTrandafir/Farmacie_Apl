@@ -1,0 +1,16 @@
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.VBox?>
+<?import java.awt.*?>
+<VBox fx:controller="UI.MedAddController"
+      xmlns:fx="http://javafx.com/fxml" alignment="center">
+
+    <Spinner fx:id="spnId" initialValue="0" editable="true" min="0" max="2000000000"/>
+    <TextField fx:id="txtName" promptText="Name"/>
+    <TextField fx:id="txtManufacturer" promptText="Manufacturer"/>
+    <TextField fx:id="txtPrice" promptText="Price"/>
+    <CheckBox fx:id="chkPrescriptionNeeded" text="Prescription needed"/>
+
+    <Button text="Add" fx:id="btnAdd" onAction="#btnAddClick" />
+    <Button text="Cancel" fx:id="btnCancel" onAction="#btnCancelClick" />
+</VBox>
