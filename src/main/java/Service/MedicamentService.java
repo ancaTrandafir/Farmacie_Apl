@@ -20,29 +20,55 @@ public class MedicamentService {
         this.repository = repository;
     }
 
-    public void addOrUpdate(String id, String name, String manufacturer, double price, boolean prescriptionNeeded) throws PozitivePriceException, InvalidCNPException, NonUniqueCNPException {
-        Medicament existing = repository.findById(id);
-        if (existing != null) {
-            // keep unchanged fields as they were
-            if (name.isEmpty()) {
-                name = existing.getName();
-            }
-            if (manufacturer.isEmpty()) {
-                manufacturer = existing.getManufacturer();
-            }
+    public void idPrim(String id) {
+        int n = Integer.parseInt(id);
+            for (int i = 2; 2 * i < n; i++) {
+                if (n % i != 0) {
 
-            if (price == 0) {
-                price = existing.getPrice();
-            }
-            Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
-            repository.upsert(med);
-        } else {
-            // sigur e add
-            Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
-            repository.upsert(med);
-            undoableOperations.add(new AddOperation<>(repository, med));
-            redoableeOperations.clear();
+                }
+
         }
+    }
+
+    public void addOrUpdate(String id, String name, String manufacturer, double price, boolean prescriptionNeeded) throws PozitivePriceException, InvalidCNPException, NonUniqueCNPException {
+
+
+       //     int n = Integer.parseInt(id);
+        //    for (int i = 2; 2 * i < n; i++) {
+         //       if (n % i != 0) {
+                    Medicament existing = repository.findById(id);
+                    if (existing != null) {
+                        // keep unchanged fields as they were
+                        if (name.isEmpty()) {
+                            name = existing.getName();
+                        }
+                        if (manufacturer.isEmpty()) {
+                            manufacturer = existing.getManufacturer();
+                        }
+                        if (price == 0) {
+                            price = existing.getPrice();
+                        }
+
+                        Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
+                         repository.upsert(med);
+                         } else {
+                            // sigur e add
+                             Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
+                        int n = Integer.parseInt(id);
+                        for (int i = 2; 2 * i < n; i++) {
+                            if (n % i != 0) {
+                              repository.upsert(med);
+                              undoableOperations.add(new AddOperation<>(repository, med));
+                            redoableeOperations.clear();
+                        } else {
+
+                                repository.remove(id);
+                                undoableOperations.add(new AddOperation<>(repository, med));
+                                redoableeOperations.clear();
+
+                            }
+                     }
+                 }
     }
 
 

@@ -56,7 +56,7 @@
             <TextField fx:id="txtPercent" layoutX="246.0" layoutY="64.0" promptText="Percent" />
             <TextField fx:id="txtMinVal" layoutX="246.0" layoutY="45.0" promptText="Minimum value" />
             <Button fx:id="btnReverseSales" layoutX="284.0" onAction="#btnReverseSalesClick" text="Reverse sort sales" />
-            <TextField fx:id="txtReverseSalesResult" editable="false" promptText="Result reverse sales" />
+            <TextField fx:id="txtReverseSalesResult" editable="false" layoutY="80.0" promptText="Result reverse sales" />
         </AnchorPane>
     </VBox>
 
@@ -155,9 +155,10 @@
             <Button fx:id="btnTransactionRedo" layoutX="350.0" onAction="#btnTransactionRedoClick" text="Redo transaction operation" />
             <Button fx:id="btnSearchTransaction" layoutX="20.0" layoutY="25.0" onAction="#btnSearchTransactionsClick" text="Search Transactions" />
             <Button fx:id="btnDeleteTransactions" layoutX="20.0" layoutY="60.0" onAction="#btnDeleteTransactionsClick" text="Delete Transactions" />
-            <TextField fx:id="txtBeginDate" layoutX="300.0" layoutY="50.0" promptText="Begin date" />
-            <TextField fx:id="txtEndDate" layoutX="300.0" layoutY="70.0" promptText="End date" />
+            <TextField fx:id="txtBeginDate" layoutX="150.0" layoutY="50.0" promptText="Begin date" />
+            <TextField fx:id="txtEndDate" layoutX="150.0" layoutY="70.0" promptText="End date" />
             <TextField fx:id="txtSearchTransactions" editable="false" layoutX="150.0" layoutY="25.0" promptText="Search transactions" />
+            <Button fx:id="btnSortDiscounts" layoutX="20.0" layoutY="90.0" onAction="#btnSortDiscountsClick" text="Sort discounts" />
         </AnchorPane>
     </VBox>
 

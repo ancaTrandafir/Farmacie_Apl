@@ -68,7 +68,7 @@ public class JsonFileRepository<T extends Entity> implements IRepository<T> {
         validator.validate(entity);
         storage.put(entity.getId(), entity);
         writeToFile();
-    }
+        }
 
     @Override
     public void remove(String id) {

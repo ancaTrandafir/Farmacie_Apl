@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -73,6 +74,7 @@ import java.util.logging.Logger;
         public Button btnReverseSales;
         public TextField txtReverseSalesResult;
         public TextField txtSearchTransactions;
+        public Button btnSortDiscounts;
 
 
         private MedicamentService medicamentService;
@@ -276,7 +278,15 @@ import java.util.logging.Logger;
             meds.addAll(medicamentService.getAll());
         }
 
-        public void btnSearchTransactionsClick(ActionEvent actionEvent) throws InvalidCNPException, NonUniqueCNPException, ParseException {
+        public void btnSearchTransactionsClick(ActionEvent actionEvent) throws InvalidCNPException, NonUniqueCNPException, ParseException, IOException {
+            Parent root = FXMLLoader.load(getClass().getResource("window.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Medicine manager");
+            stage.setScene(new Scene(root, 650, 500));
+
+            stage.show();
+
             String beginDate = txtBeginDate.getText();
             String endDate = txtEndDate.getText();
             transactionService.SearchTransaction(beginDate, endDate);
@@ -294,6 +304,16 @@ import java.util.logging.Logger;
 
         public void btnReverseSalesClick(ActionEvent actionEvent) {
             transactionService.runSaleSearch();
+            transactions.clear();
+            transactions.addAll(transactionService.getAll());
         }
+
+        public void btnSortDiscountsClick(ActionEvent actionEvent) {
+            transactionService.runDiscounts();
+            transactions.clear();
+            transactions.addAll(transactionService.getAll());
+        }
+
+
     }
 

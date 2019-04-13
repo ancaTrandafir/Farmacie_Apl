@@ -194,6 +194,27 @@ public class TransactionService {
         }
     }
 
+    public void runDiscounts() {
+        Map<String, Double> map = new HashMap<>();
+        double discounts = 0;
+        List<Double> list = new ArrayList<>();
+        for (Transaction t : transactionRepository.getAll()) {
+            map.put(t.getId_card_client(), t.getDiscount() * t.getBasePrice() * t.getQuantity());
+        }
+
+        List<Double> discountedPrices = new ArrayList<>(map.values());
+        Collections.reverse(discountedPrices);
+
+        TreeMap<String, Double> sorted = new TreeMap<>();
+        sorted.putAll(map);
+
+        for (Map.Entry<String, Double> entry : map.entrySet())
+            System.out.println("Id card = " + entry.getKey() +
+                    ", Discouts = " + entry.getValue());
+
+        }
+
+
 
 
 
