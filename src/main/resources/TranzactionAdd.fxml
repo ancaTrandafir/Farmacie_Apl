@@ -1,0 +1,18 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Spinner?>
+<VBox fx:controller="UI.TranzactionAddController"
+      xmlns:fx="http://javafx.com/fxml" alignment="center">
+
+    <Spinner fx:id="spnIdTransaction" initialValue="0" editable="true" min="0" max="2000000000"/>
+    <TextField fx:id="txtIdMed" promptText="Id medicine"/>
+    <TextField fx:id="txtIdCardClient" promptText="Id card client"/>
+    <TextField fx:id="txtQuantity" promptText="Quantity"/>
+    <TextField fx:id="txtDate" promptText="Date"/>
+    <TextField fx:id="txtTime" promptText="Time"/>
+
+    <Button text="Add" fx:id="btnAdd" onAction="#btnAddClick" />
+    <Button text="Cancel" fx:id="btnCancel" onAction="#btnCancelClick" />
+</VBox>

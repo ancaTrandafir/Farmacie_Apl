@@ -1,21 +1,20 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.cell.TextFieldTableCell?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox fx:controller="UI.Controller"
-      xmlns:fx="http://javafx.com/fxml" alignment="center">
+<HBox alignment="center" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Controller">
 
-    <VBox>
-        <Label text="Meds:"/>
+    <VBox prefHeight="518.0" prefWidth="402.0">
+        <Label text="Meds:" />
         <TableView fx:id="tableViewMeds" editable="true">
             <columns>
                 <TableColumn fx:id="tableColumnId" text="id">
@@ -23,7 +22,7 @@
                         <PropertyValueFactory property="id" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="tableColumnName" text="Name" onEditCommit="#editMedName">
+                <TableColumn fx:id="tableColumnName" onEditCommit="#editMedName" text="Name">
                     <cellValueFactory>
                         <PropertyValueFactory property="name" />
                     </cellValueFactory>
@@ -43,13 +42,127 @@
                 </TableColumn>
                 <TableColumn fx:id="tableColumnPrescriptionNeeded" text="Prescription needed">
                     <cellValueFactory>
-                        <PropertyValueFactory property="prescriptipnNeeded" />
+                        <PropertyValueFactory property="prescriptionNeeded" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
-        <Button text="Add cake" fx:id="btnMedAdd" onAction="#btnMedAddClick" />
-        <Button text="Delete cake" fx:id="btnMedDelete" onAction="#btnMedDeleteClick" />
+        <AnchorPane prefHeight="90.0" prefWidth="402.0">
+            <Button fx:id="btnMedDelete" layoutX="67.0" layoutY="2.0" onAction="#btnMedDeleteClick" text="Delete med" />
+            <Button fx:id="btnMedAdd" layoutX="2.0" layoutY="2.0" onAction="#btnMedAddClick" text="Add med" />
+            <Button fx:id="btnMedUndo" layoutX="4.0" layoutY="25.0" onAction="#btnMedUndoClick" text="Undo med operation" />
+            <Button fx:id="btnMedRedo" layoutX="4.0" layoutY="52.0" onAction="#btnMedRedoClick" text="Redo med operation" />
+            <Button fx:id="btnIncreaseValue" layoutX="284.0" layoutY="25.0" onAction="#btnIncreaseValueClick" text="Increase Value" />
+            <TextField fx:id="txtPercent" layoutX="246.0" layoutY="64.0" promptText="Percent" />
+            <TextField fx:id="txtMinVal" layoutX="246.0" layoutY="45.0" promptText="Minimum value" />
+            <Button fx:id="btnReverseSales" layoutX="284.0" onAction="#btnReverseSalesClick" text="Reverse sort sales" />
+            <TextField fx:id="txtReverseSalesResult" editable="false" promptText="Result reverse sales" />
+        </AnchorPane>
     </VBox>
+
+
+
+
+    <VBox>
+        <Label text="Clients:" />
+        <TableView fx:id="tableViewClients" editable="true">
+            <columns>
+                <TableColumn fx:id="tableColumnId_client" text="Id client">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnFirstName" text="First name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="firstName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnLastName" text="Last name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="lastName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnCNP" text="CNP">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="CNP" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnDateOfBirth" text="Date of birth">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="dateOfBirth" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnDateOfRegistration" text="Date of registration">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="dateOfRegistration" />
+                    </cellValueFactory>
+                </TableColumn>
+
+            </columns>
+        </TableView>
+        <HBox alignment="BOTTOM_RIGHT" prefHeight="22.0" prefWidth="482.0">
+            <Button fx:id="btnClientAdd" onAction="#btnClientAddClick" text="Add client" />
+            <Button fx:id="btnClientDelete" onAction="#btnClientDeleteClick" text="Delete client" />
+            <Button fx:id="btnClientUndo" onAction="#btnClientUndoClick" text="Undo client operation" />
+            <Button fx:id="btnClientRedo" onAction="#btnClientRedoClick" text="Redo client operation" />
+        </HBox>
+    </VBox>
+
+
+
+
+    <VBox>
+        <Label text="Transactions:" />
+        <TableView fx:id="tableViewTranzactions" editable="true">
+            <columns>
+                <TableColumn fx:id="tableColumnId_transaction" text="Id transaction">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnId_med" text="Id med">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id_med" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnId_card_client" text="Id client card">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id_card_client" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnDate" text="Date">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="date" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnTime" text="Time">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="time" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnQuantity" text="Quantity">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="quantity" />
+                    </cellValueFactory>
+                </TableColumn>
+
+            </columns>
+        </TableView>
+        <AnchorPane>
+            <Button fx:id="btnTransactionAdd" onAction="#btnTransactionAddClick" text="Add transaction" />
+            <Button fx:id="btnTransactionDelete" layoutX="90.0" onAction="#btnTransactionDeleteClick" text="Delete transaction" />
+            <Button fx:id="btnTransactionUndo" layoutX="195.0" onAction="#btnTransactionUndoClick" text="Undo transaction operation" />
+            <Button fx:id="btnTransactionRedo" layoutX="350.0" onAction="#btnTransactionRedoClick" text="Redo transaction operation" />
+            <Button fx:id="btnSearchTransaction" layoutX="20.0" layoutY="25.0" onAction="#btnSearchTransactionsClick" text="Search Transactions" />
+            <Button fx:id="btnDeleteTransactions" layoutX="20.0" layoutY="60.0" onAction="#btnDeleteTransactionsClick" text="Delete Transactions" />
+            <TextField fx:id="txtBeginDate" layoutX="300.0" layoutY="50.0" promptText="Begin date" />
+            <TextField fx:id="txtEndDate" layoutX="300.0" layoutY="70.0" promptText="End date" />
+            <TextField fx:id="txtSearchTransactions" editable="false" layoutX="150.0" layoutY="25.0" promptText="Search transactions" />
+        </AnchorPane>
+    </VBox>
+
+
+
+
 
 </HBox>

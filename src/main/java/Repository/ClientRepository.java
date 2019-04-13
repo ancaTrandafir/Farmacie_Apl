@@ -1,4 +1,4 @@
-package Repository;
+/*package Repository;
 
 import CustomExceptions.InvalidCNPException;
 import CustomExceptions.NonUniqueCNPException;
@@ -26,7 +26,7 @@ public class ClientRepository {
      * Adds or updates a client if it already exists.
      * @param client the client to add or to update
      */
-    public void upsert(Client client) throws InvalidCNPException, NonUniqueCNPException {
+   /* public void upsert(Client client) throws InvalidCNPException, NonUniqueCNPException {
         validator.validate(client);
         storage.put(client.getId(),client);
     }
@@ -36,9 +36,9 @@ public class ClientRepository {
      * @param id the id
      * @throws  RuntimeException if there's no client with the given id.
      */
-    public void remove(String id) {
+  /*  public void remove(String id) {
       if (!storage.containsKey(id)) {
-         throw new RuntimeException("There'n no client with id=%s id to remove.");
+         throw new RuntimeException("There's no client with id=%s id to remove.");
       }
       storage.remove(id);
     }
@@ -47,3 +47,4 @@ public class ClientRepository {
         return  new ArrayList<>(storage.values());
     }
 }
+*/

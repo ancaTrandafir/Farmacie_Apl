@@ -1,4 +1,4 @@
-package Repository;
+/*package Repository;
 
 import CustomExceptions.PozitivePriceException;
 import Domain.Medicament;
@@ -28,7 +28,7 @@ public class MedicamentRepository {
      * Adds or updates a med if it already exists.
      * @param med the med to add or update.
      */
-    public void upsert(Medicament med) throws PozitivePriceException {
+  /*  public void upsert(Medicament med) throws PozitivePriceException {
         validator.validate(med);
         storage.put(med.getId(), med);
     }
@@ -38,7 +38,7 @@ public class MedicamentRepository {
      * @param id the id.
      * @throws RuntimeException if there's no med with the given id.
      */
-    public void remove (String id) {
+   /* public void remove (String id) {
         if (!storage.containsKey(id)) {
             throw new RuntimeException("There's no cake with id=%s to remove.");
         }
@@ -49,3 +49,4 @@ public class MedicamentRepository {
         return new ArrayList<>(storage.values());
     }
 }
+*/

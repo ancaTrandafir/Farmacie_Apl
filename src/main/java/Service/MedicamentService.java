@@ -8,42 +8,44 @@ import Repository.IRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class MedicamentService {
 
     private IRepository<Medicament> repository;
+    private Stack<UndoRedoOperation<Medicament>> undoableOperations = new Stack<>();
+    private Stack<UndoRedoOperation<Medicament>> redoableeOperations = new Stack<>();
 
-    public MedicamentService(IRepository<Medicament> repository) {
+    public MedicamentService(IRepository<Medicament> repository) throws PozitivePriceException, InvalidCNPException, NonUniqueCNPException {
         this.repository = repository;
     }
 
-    public void addOrUpdate (String id, String name, String manufacturer, double price, boolean prescriptionNeeded) throws PozitivePriceException {
+    public void addOrUpdate(String id, String name, String manufacturer, double price, boolean prescriptionNeeded) throws PozitivePriceException, InvalidCNPException, NonUniqueCNPException {
         Medicament existing = repository.findById(id);
-        if (existing != null ) {
+        if (existing != null) {
             // keep unchanged fields as they were
             if (name.isEmpty()) {
                 name = existing.getName();
             }
-            if (manufacturer.isEmpty()) manufacturer = existing.getManufacturer();
+            if (manufacturer.isEmpty()) {
+                manufacturer = existing.getManufacturer();
+            }
+
             if (price == 0) {
                 price = existing.getPrice();
             }
-        }
-        Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
-        try {
+            Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
             repository.upsert(med);
-        } catch (InvalidCNPException e) {
-            e.printStackTrace();
-        } catch (NonUniqueCNPException e) {
-            e.printStackTrace();
+        } else {
+            // sigur e add
+            Medicament med = new Medicament(id, name, manufacturer, price, prescriptionNeeded);
+            repository.upsert(med);
+            undoableOperations.add(new AddOperation<>(repository, med));
+            redoableeOperations.clear();
         }
     }
 
-    /**
-     * Searches meds whose fields contain a given text
-     * @param text the text searched for
-     * @return A list of meds whose fields contain text
-     */
+
     public List<Medicament> fullTextSearch(String text) {
         List<Medicament> results = new ArrayList<>();
         for (Medicament m : repository.getAll()) {
@@ -61,11 +63,49 @@ public class MedicamentService {
         return results;
     }
 
-    public void remove(String id){
+    public void undo() {
+        if (!undoableOperations.empty()) {
+            UndoRedoOperation<Medicament> lastOperation = undoableOperations.pop();
+            lastOperation.doUndo();
+            redoableeOperations.add(lastOperation);
+
+        }
+    }
+
+    public void redo() throws InvalidCNPException, PozitivePriceException, NonUniqueCNPException {
+        if (!redoableeOperations.empty()) {
+            UndoRedoOperation<Medicament> lastOperation = redoableeOperations.pop();
+            lastOperation.doRedo();
+            undoableOperations.add(lastOperation);
+        }
+    }
+
+    public void remove(String id) {
         repository.remove(id);
     }
 
-    public List<Medicament> getAll(){
+    public List<Medicament> getAll() {
         return repository.getAll();
     }
+
+    public void increasePrices(Integer procent, Integer minimumValue) {
+        for (Medicament med : repository.getAll()){
+            if (med.getPrice() < minimumValue){
+                med.setPrice(med.getPrice() + procent / 100.0 * med.getPrice());
+                try {
+                    repository.upsert(med);
+                } catch (InvalidCNPException e) {
+                    e.printStackTrace();
+                } catch (PozitivePriceException e) {
+                    e.printStackTrace();
+                } catch (NonUniqueCNPException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(med);
+                System.out.println(repository.getAll());
+            }
+        }
+    }
+
+
 }

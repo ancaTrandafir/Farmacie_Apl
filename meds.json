@@ -1,0 +1,4 @@
+{"name":"Paracetamol","manufacturer":"Pharma","price":55.44,"prescriptionNeeded":true,"id":"1"}
+{"name":"Nurofen","manufacturer":"Pharma","price":62.7,"prescriptionNeeded":false,"id":"2"}
+{"name":"Bixtonim","manufacturer":"Pharma","price":209.0,"prescriptionNeeded":false,"id":"3"}
+{"name":"Coldrex","manufacturer":"Pharma","price":37.4,"prescriptionNeeded":true,"id":"4"}

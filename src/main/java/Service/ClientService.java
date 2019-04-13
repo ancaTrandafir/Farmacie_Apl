@@ -4,20 +4,37 @@ import CustomExceptions.InvalidCNPException;
 import CustomExceptions.NonUniqueCNPException;
 import CustomExceptions.PozitivePriceException;
 import Domain.Client;
+import Domain.ClientValidator;
 import Repository.IRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class ClientService {
 
+    private ClientValidator clientValidator = new ClientValidator();
     private IRepository<Client> repository;
+    private Stack<UndoRedoOperation<Client>> undoableOperations = new Stack<>();
+    private Stack<UndoRedoOperation<Client>> redoableeOperations = new Stack<>();
 
     public ClientService(IRepository<Client> repository) {
         this.repository = repository;
     }
 
     public void addOrUpdate(String id, String lastName, String firstName, String CNP, String dateOfBirth, String dateOfRegistration) throws InvalidCNPException, NonUniqueCNPException, PozitivePriceException {
+        Client client = new Client(id, lastName, firstName, CNP, dateOfBirth, dateOfRegistration);
+        clientValidator.validate(client);
+        try {
+            for (Client c : repository.getAll()) {
+                if (c.getCNP().equals(CNP)) {
+                    throw new NonUniqueCNPException("nu e unic");
+                }
+            }
+        }catch (NonUniqueCNPException exeption) {
+            throw new RuntimeException(exeption.getMessage());
+        }
+
         Client existing = repository.findById(id);
         if (existing != null) {
             // keep unchanged fields as they were
@@ -37,7 +54,7 @@ public class ClientService {
                 dateOfRegistration = existing.getDateOfRegistration();
             }
         }
-        Client client = new Client(id, lastName, firstName, CNP, dateOfBirth, dateOfRegistration);
+
         repository.upsert(client);
     }
 
@@ -69,5 +86,22 @@ public class ClientService {
 
     public List<Client> getAll() {
         return repository.getAll();
+    }
+
+    public void undo() {
+        if (!undoableOperations.empty()) {
+            UndoRedoOperation<Client> lastOperation = undoableOperations.pop();
+            lastOperation.doUndo();
+            redoableeOperations.add(lastOperation);
+
+        }
+    }
+
+    public void redo() throws InvalidCNPException, PozitivePriceException, NonUniqueCNPException {
+        if (!redoableeOperations.empty()) {
+            UndoRedoOperation<Client> lastOperation = redoableeOperations.pop();
+            lastOperation.doRedo();
+            undoableOperations.add(lastOperation);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package Repository;
+/*package Repository;
 
 import CustomExceptions.PozitivePriceException;
 import Domain.Transaction;
@@ -25,7 +25,7 @@ public class TransactionRepository {
      * Adds or updates a transaction if it already exists.
      * @param transaction the transaction to add or update.
      */
-    public void upsert(Transaction transaction) throws PozitivePriceException {
+   /* public void upsert(Transaction transaction) throws PozitivePriceException {
         validator.validate(transaction);
         storage.put(transaction.getId(), transaction);
     }
@@ -35,7 +35,7 @@ public class TransactionRepository {
      * @param id the id.
      * @throws RuntimeException if there is no transaction with the given id.
      */
-    public void remove(String id) {
+  /*  public void remove(String id) {
         if (!storage.containsKey(id)) {
             throw new RuntimeException("There is no transaction with the given id to remove.");
         }
@@ -48,3 +48,4 @@ public class TransactionRepository {
     }
 
 }
+*/

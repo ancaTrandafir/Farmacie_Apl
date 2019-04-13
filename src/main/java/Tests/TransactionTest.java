@@ -1,5 +1,8 @@
 package Tests;
+
+import Domain.Medicament;
 import Domain.Transaction;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -82,5 +85,27 @@ public class TransactionTest {
         Transaction transaction = new Transaction("3", "1", "1", 1,  "01.01.2000", "05:00", 150, 15);
         assertTrue(transaction.getQuantity()> 0);
     }
+
+    @Test
+    void RunRaisePriceShouldReturnHigherPrice() {
+        Medicament med1 = new Medicament("1", "test", "test", 30,  true);
+        Double priceLimit = 50.00;
+        Double percentage = 0.15;
+        //TransactionService.runRaisePrices(priceLimit, percentage);
+        assertEquals(30*1.15, med1.getPrice()+med1.getPrice()*percentage);
+    }
+
+    @Test
+    void RunIdCardSearchShouldReturnDescendingDiscountedPrices() {
+        Medicament med1 = new Medicament("1", "test", "test", 150,  true);
+        Medicament med2 = new Medicament("2", "test", "test", 100,  false);
+        Transaction transaction1 = new Transaction("1", "1", "1", 1,  "01.01.2000", "05:00", 150, 15);
+        Transaction transaction2 = new Transaction("1", "2", "1", 1,  "01.01.2000", "05:00", 150, 15);
+        //TransactionService.runIdCardSearch();
+
+
+    }
+
+
 
 }

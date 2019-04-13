@@ -7,7 +7,8 @@ import Service.ClientService;
 import Service.MedicamentService;
 import Service.TransactionService;
 
-import java.util.*;
+import java.text.ParseException;
+import java.util.Scanner;
 
 public class Console {
     private MedicamentService medicamentService;
@@ -38,7 +39,7 @@ public class Console {
         System.out.println("x. Exit");
     }
 
-    public void run() {
+    public void run() throws ParseException {
         while (true) {
             showMenu();
 
@@ -59,17 +60,27 @@ public class Console {
                 case "5":
                     runClientSearch();
                     break;
-              /*  case "6":
-                    runTransactionSearch();
-                    break; */
+                case "6":
+                    System.out.println("Data inceput: ");
+                    String date1 = scanner.nextLine();
+                    System.out.println("Data sfarsit: ");
+                    String date2 = scanner.nextLine();
+                //    transactionService.runTransactionSearch(date1, date2);
+                    break;
                 case "7":
-                    runSaleSearch();
+                 //   transactionService.runSaleSearch();
                     break;
                 case "8":
-                    runIdCardSearch();
+                 //   transactionService.runIdCardSearch();
                     break;
                 case "9":
-                    runRaisePrices();
+                    System.out.println("Set prices lower limit.");
+                    String stringLimit = scanner.nextLine();
+                    System.out.println("Set percentage.");
+                    String stringPercentage = scanner.nextLine();
+                    Double priceLimit = Double.parseDouble(stringLimit);
+                    Double percentage = Double.parseDouble(stringPercentage);
+                 //   transactionService.runRaisePrices(priceLimit, percentage);
                     break;
                 case "x":
                     return;
@@ -80,100 +91,14 @@ public class Console {
         }
     }
 
-    private void runRaisePrices() {
-        System.out.println("Set prices lower limit.");
-        String stringLimit = scanner.nextLine();
-        System.out.println("Set percentage.");
-        String stringPercentage = scanner.nextLine();
-        Double priceLimit = Double.parseDouble(stringLimit);
-        Double percentage = Double.parseDouble(stringPercentage);
-
-        for (Medicament m : medicamentService.getAll())
-            if (m.getPrice()<= priceLimit) {
-                m.setPrice(m.getPrice() * (100 + percentage)); // majora pretul cu procentul
-            }
-
-        for (Medicament m : medicamentService.getAll())
-            System.out.println(m);
-    }
-
-
-    private void runIdCardSearch() {
-        // Cream un dictionar in care retinem id_card si valoare discount
-        Map<String, Double> idCard = new HashMap<>();
-        for (Transaction t : transactionService.getAll()) {
-            if (t.getId_card_client() != null) {  // are card deci are discount
-                // fctia Transaction are ca parametru si basePrice si discount, setate in Service
-                // val reducere = basePrice * discount * cantitate vanduta
-                idCard.put(t.getId_card_client(), t.getDiscount() * t.getBasePrice() * t.getQuantity());
-            }
-        }
-        // Cream o lista care retine valorile dictionarului, cu reverse ordonam descrescator
-        List<Double> discountedPrices = new ArrayList<>(idCard.values());
-        Collections.reverse(discountedPrices);
-
-        // Cream un dictionar ordonat TreeMap in care copiem valorile ordonate anterior
-        TreeMap<String, Double> sorted = new TreeMap<>();
-        sorted.putAll(idCard);
-
-        for (Map.Entry<String, Double> entry : idCard.entrySet())
-            System.out.println("Id card = " + entry.getKey() +
-                    ", Discouts = " + entry.getValue());
-    }
 
 
 
-    private void runSaleSearch() {
-        // Cream un dictionar in care retinem id_medicament si vanzarile
-        Map<String, Double> sales = new HashMap<>();
-        for (Transaction t : transactionService.getAll()) {
-            for (Medicament m : medicamentService.getAll())
-                // id_med din tranzactie treb sa corespunda cu id med.
-                if (m.getId() == t.getId_med()) {
-                    // Vanzari = cantitate * pret
-                    sales.put(t.getId_med(), t.getQuantity() * m.getPrice());
-                }
-        }
 
-        // Cream o lista care retine valorile dictionarului, cu reverse ordonam descrescator
-        List<Double> vanzari = new ArrayList<>(sales.values());
-        Collections.reverse(vanzari);
 
-        // Cream un dictionar ordonat TreeMap in care copiem valorile ordonate anterior
-        TreeMap<String, Double> sorted = new TreeMap<>();
-        sorted.putAll(sales);
 
-        // for-each loop for iteration over Map.entrySet()
-        for (Map.Entry<String, Double> entry : sales.entrySet())
-            System.out.println("Id med = " + entry.getKey() +
-                    ", Sales = " + entry.getValue());
-    }
 
-/*
-        private void runTransactionSearch() throws ParseException {
 
-        System.out.println("Data inceput: ");
-        String date1 = scanner.nextLine();
-        System.out.println("Data sfarsit: ");
-        String date2 = scanner.nextLine();
-
-        // Formatam din String in data
-        DateTimeFormatter formatter = new DateTimeFormatter.ISO_DATE;
-        LocalDate beginDate = LocalDate.parse(date1);
-        LocalDate endDate = LocalDate.parse(date1);
-
-        // Cream o lista de date formatate (importam LocalDate)
-        // Datele se compara cu isAfter, isBefore in Java8
-        List <LocalDate> formatDate = new ArrayList<LocalDate>();
-        for (Transaction t : transactionService.getAll()) {
-           formatDate.add(LocalDate.parse(t.getDate()));
-           for (int i = 0; i < formatDate.size(); i++)
-                if (formatDate.get(i).isAfter(beginDate) && formatDate.get(i).isBefore(endDate)) {
-                         System.out.println(t);
-                     }
-        }
-    }
-*/
 
 
     private void runMedSearch() {

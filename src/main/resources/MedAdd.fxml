@@ -1,7 +1,9 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.VBox?>
-<?import java.awt.*?>
 <VBox fx:controller="UI.MedAddController"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
@@ -9,7 +11,7 @@
     <TextField fx:id="txtName" promptText="Name"/>
     <TextField fx:id="txtManufacturer" promptText="Manufacturer"/>
     <TextField fx:id="txtPrice" promptText="Price"/>
-    <CheckBox fx:id="chkPrescriptionNeeded" text="Prescription needed"/>
+    <CheckBox fx:id="chkPrescriptionNeeded" text="Prescription Needed"/>
 
     <Button text="Add" fx:id="btnAdd" onAction="#btnAddClick" />
     <Button text="Cancel" fx:id="btnCancel" onAction="#btnCancelClick" />

@@ -3,28 +3,29 @@ package UI;
 import CustomExceptions.InvalidCNPException;
 import CustomExceptions.NonUniqueCNPException;
 import CustomExceptions.PozitivePriceException;
-import Service.MedicamentService;
+import Service.ClientService;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class MedAddController {
+public class ClientAddController {
 
-    public TextField txtName;
-    public TextField txtManufacturer;
-    public TextField txtPrice;
-    public CheckBox chkPrescriptionNeeded;
+    public Spinner spnId;
+    public TextField txtFirstName;
+    public TextField txtLastName;
+    public TextField txtCNP;
+    public TextField txtDateOfBirth;
+    public TextField txtDateOfRegistration;
     public Button btnAdd;
     public Button btnCancel;
-    public Spinner spnId;
 
-    private MedicamentService medicamentService;
 
-    public void setService(MedicamentService medicamentService) {
-        this.medicamentService = medicamentService;
+    private ClientService clientService;
+
+    public void setService(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     public void btnCancelClick(ActionEvent actionEvent) {
@@ -36,12 +37,13 @@ public class MedAddController {
 
         try {
             String id = String.valueOf(spnId.getValue());
-            String name = txtName.getText();
-            String manufacturer = txtManufacturer.getText();
-            double price = Double.parseDouble(txtPrice.getText());
-            boolean prescriptionNeeded = chkPrescriptionNeeded.isSelected();
+            String firstName = txtFirstName.getText();
+            String lastName = txtLastName.getText();
+            String CNP = txtCNP.getText();
+            String dateOfBirth = txtDateOfBirth.getText();
+            String dateOfRegistration = txtDateOfRegistration.getText();
 
-            medicamentService.addOrUpdate(id, name, manufacturer, price, prescriptionNeeded);
+            clientService.addOrUpdate(id, firstName, lastName, CNP, dateOfBirth, dateOfRegistration);
             btnCancelClick(actionEvent);
         } catch (RuntimeException rex) {
             Common.showValidationError(rex.getMessage());
